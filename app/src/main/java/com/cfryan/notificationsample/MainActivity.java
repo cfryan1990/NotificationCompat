@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setEvent() {
         findViewById(R.id.btn_send).setOnClickListener(this);
         findViewById(R.id.btn_cancel).setOnClickListener(this);
+        findViewById(R.id.btn_progress).setOnClickListener(this);
     }
 
     /**
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 NotificationCompat.Builder builder = NotificationHelper.from(this)
-                        .createProgress(new DefaultConfig(), "消息标题", "消息正文", 50)
+                        .createProgress(new DefaultConfig(), "消息标题", "消息正文")
                         .setCustomEffect(null, new long[]{0, 100, 300, 1000, 500, 2000}, false)
                         .addAction(new NotificationCompat.Action(R.mipmap.ic_launcher, "title1", pendingIntent))
                         .addAction(new NotificationCompat.Action(R.mipmap.ic_launcher, "title2", pendingIntent))
@@ -217,13 +218,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .createCustomHeadsUpView(new DefaultConfig(), new RemoteViews(getPackageName(), R.layout.view_notification2))
                         .setEffectAllDefaults()
                         .getBuilder();
-                        //5.0之后支持顶部悬浮窗显示，开启条件（二选一）：
-                        // 1、priority是high或者max
-                        // 2、setFullScreenIntent，且不为空
+                //5.0之后支持顶部悬浮窗显示，开启条件（二选一）：
+                // 1、priority是high或者max
+                // 2、setFullScreenIntent，且不为空
 //                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 //                        .setFullScreenIntent(pendingIntent2, false);
                 NotificationHelper.notify(this, 2000, builderHeadsUp.build());
 
+                break;
+
+            case R.id.btn_progress:
+                //模拟进度条
+                final NotificationCompat.Builder progressBuilder = NotificationHelper.from(this)
+                        .createProgress(new DefaultConfig(), "Download Title", "Download in Progress").getBuilder();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i <= 100; i++) {
+                            NotificationHelper.updateProgress(MainActivity.this, 0, 100, i, progressBuilder);
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+
+                            }
+                        }
+
+                        NotificationHelper.completeProgress(MainActivity.this, 0, progressBuilder, "complete");
+                    }
+                }).start();
                 break;
         }
     }

@@ -5,9 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -99,35 +97,52 @@ public class NotificationHelper {
     }
 
     /**
-     * 进度条构造器,明确的进度条显示
+     * 进度条构造器,不明确进度条
      *
      * @param config
      * @param title
      * @param contentText
      * @return
      */
-    public NotificationEffect createProgress(BaseConfig config, CharSequence title, CharSequence contentText,
-                                             int progress) {
-        return createProgress(config, title, contentText, progress, false);
+    public NotificationEffect createProgress(BaseConfig config, CharSequence title, CharSequence contentText) {
+        NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
+        baseBuilder.setContentTitle(title)
+                .setContentText(contentText)
+                .setProgress(0, 0, true);
+        return new NotificationEffect(baseBuilder);
     }
 
     /**
-     * 进度条构造器
+     * 进度条构造器,明确进度条
      *
      * @param config
      * @param title
      * @param contentText
      * @param progress
-     * @param indeterminate
      * @return
      */
     public NotificationEffect createProgress(BaseConfig config, CharSequence title, CharSequence contentText,
-                                             int progress, boolean indeterminate) {
+                                             int progress) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setContentTitle(title)
                 .setContentText(contentText)
-                .setProgress(config.getProgressMax(), progress, indeterminate);
+                .setProgress(config.getProgressMax(), progress, false);
         return new NotificationEffect(baseBuilder);
+    }
+
+    /**
+     * 更新进度条
+     *
+     * @param context
+     * @param notifyId
+     * @param maxProgress
+     * @param currentProgress
+     * @param builder
+     */
+    public static void updateProgress(Context context, int notifyId, int maxProgress, int currentProgress, NotificationCompat.Builder builder) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        builder.setProgress(maxProgress, currentProgress, false);
+        notificationManager.notify(notifyId, builder.build());
     }
 
     /**
@@ -144,7 +159,19 @@ public class NotificationHelper {
     }
 
     /**
+     * When the operation is done, call setProgress(0, 0, false) and then update the notification to remove the activity indicator.
+     * Always do this; otherwise, the animation will run even when the operation is complete.
+     * Also remember to change the notification text to indicate that the operation is complete.
+     *
+     * @param builder
+     */
+    public static void completeProgress(Context context, int notifyId, NotificationCompat.Builder builder, CharSequence contentText) {
+        notify(context, notifyId, builder.setContentText(contentText).setProgress(0, 0, false).build());
+    }
+
+    /**
      * 无效
+     *
      * @param config
      * @param remoteViews
      * @return
