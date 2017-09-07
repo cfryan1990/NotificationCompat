@@ -17,13 +17,13 @@ import android.widget.RemoteViews;
 public class NotificationEvent {
     private Context mContext;
     private NotificationCompat.Builder mBuilder;
-    private RemoteViews mRemoteViews;
+    private RemoteViews mContentRemoteViews;
     private RemoteViews mBigContentRemotesViews;
 
     public NotificationEvent(Context context, NotificationCompat.Builder builder, RemoteViews contentRemoteViews, RemoteViews bigContentRemoteViews) {
         this.mContext = context;
         this.mBuilder = builder;
-        this.mRemoteViews = contentRemoteViews;
+        this.mContentRemoteViews = contentRemoteViews;
         this.mBigContentRemotesViews = bigContentRemoteViews;
     }
 
@@ -32,7 +32,6 @@ public class NotificationEvent {
     }
 
     /**
-     *
      * @param notifyId
      */
     public void sendNotify(int notifyId) {
@@ -41,6 +40,8 @@ public class NotificationEvent {
     }
 
     /**
+     * bind event
+     *
      * @param pendingIntent
      * @return
      */
@@ -63,15 +64,23 @@ public class NotificationEvent {
     }
 
     /**
-     * 给remoteViews中的view绑定事件
+     * 给contentRemoteViews中的view绑定事件
      *
      * @param viewId
      * @param pendingIntent
      * @return
      */
     public NotificationEvent setContentIntent(@IdRes int viewId, PendingIntent pendingIntent) {
-        if (mRemoteViews == null) throw new RuntimeException("mRemotesViews must be no-null");
-        mRemoteViews.setOnClickPendingIntent(viewId, pendingIntent);
+        if (mContentRemoteViews == null)
+            throw new RuntimeException("mRemotesViews must be no-null");
+        mContentRemoteViews.setOnClickPendingIntent(viewId, pendingIntent);
+        return this;
+    }
+
+    public NotificationEvent setBigContentIntent(@IdRes int viewId, PendingIntent pendingIntent) {
+        if (mBigContentRemotesViews == null)
+            throw new RuntimeException("mBigContentRemotesViews must be no-null");
+        mBigContentRemotesViews.setOnClickPendingIntent(viewId, pendingIntent);
         return this;
     }
 

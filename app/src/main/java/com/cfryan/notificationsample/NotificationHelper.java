@@ -157,7 +157,7 @@ public class NotificationHelper {
     }
 
     /**
-     * 通知自定义view构造器(包含扩展)
+     * 通知自定义view构造器(包含扩展的bigcontentview)
      *
      * @param config
      * @param contentRemoteViews
