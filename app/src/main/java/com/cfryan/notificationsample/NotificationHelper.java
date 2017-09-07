@@ -67,7 +67,7 @@ public class NotificationHelper {
      * @param subText
      * @return
      */
-    public NotificationEffect createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
+    public NotificationStyle createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
                                             CharSequence subText) {
         return createDefault(config, title, contentText, subText, null, null);
     }
@@ -83,7 +83,7 @@ public class NotificationHelper {
      * @param ticker      首次弹出的状态栏消息提示，部分机型失效
      * @return
      */
-    public NotificationEffect createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
+    public NotificationStyle createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
                                             CharSequence subText, CharSequence ticker, CharSequence contentInfo) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setContentTitle(title)
@@ -93,7 +93,7 @@ public class NotificationHelper {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             baseBuilder.setContentInfo(contentInfo);
         }
-        return new NotificationEffect(mContext.get(), baseBuilder);
+        return new NotificationStyle(mContext.get(), baseBuilder);
     }
 
     /**
@@ -194,31 +194,6 @@ public class NotificationHelper {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setCustomHeadsUpContentView(remoteViews);
         return new NotificationEffect(mContext.get(), baseBuilder, remoteViews, null);
-    }
-
-
-    public NotificationEffect createMessageStyleNotification(BaseConfig config) {
-        NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
-        baseBuilder.setStyle(new NotificationCompat.MessagingStyle(""));
-        return new NotificationEffect(mContext.get(), baseBuilder);
-    }
-
-    public NotificationEffect createBigPictureStyleNotification(BaseConfig config) {
-        NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
-        baseBuilder.setStyle(new NotificationCompat.BigPictureStyle());
-        return new NotificationEffect(mContext.get(), baseBuilder);
-    }
-
-    public NotificationEffect createInboxStyleNotification(BaseConfig config) {
-        NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
-        baseBuilder.setStyle(new NotificationCompat.InboxStyle());
-        return new NotificationEffect(mContext.get(), baseBuilder);
-    }
-
-    public NotificationEffect createBigTextStyleNotification(BaseConfig config) {
-        NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
-        baseBuilder.setStyle(new NotificationCompat.BigTextStyle());
-        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     /**

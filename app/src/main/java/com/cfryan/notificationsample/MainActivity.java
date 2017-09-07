@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_cancel).setOnClickListener(this);
         findViewById(R.id.btn_progress).setOnClickListener(this);
         findViewById(R.id.btn_custom).setOnClickListener(this);
+        findViewById(R.id.btn_style).setOnClickListener(this);
     }
 
     /**
@@ -254,9 +255,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_custom:
                 NotificationHelper.from(this)
                         .createCustomNotification(new DefaultConfig(), new RemoteViews(getPackageName(),
-                                R.layout.view_notification),new RemoteViews(getPackageName(),R.layout.view_notification_big))
+                                R.layout.view_notification), new RemoteViews(getPackageName(), R.layout.view_notification_big))
                         .setEffectAllDefaults()
                         .sendNotify(3000);
+                break;
+
+            case R.id.btn_style:
+
+
+                NotificationHelper.from(this)
+                        .createDefault(new DefaultConfig(), "title", "main content", "subtext")
+                        .setMessageStyle("username", "title",
+                                new NotificationCompat.MessagingStyle.Message[]
+                                        {
+                                                new NotificationCompat.MessagingStyle.Message("A", System.currentTimeMillis(), "sender1"),
+                                                new NotificationCompat.MessagingStyle.Message("B", System.currentTimeMillis(), "sender2"),
+                                                new NotificationCompat.MessagingStyle.Message("C", System.currentTimeMillis(), "sender3")
+                                        })
+                        .setEffectAllDefaults()
+                        .sendNotify(5000);
+
+                NotificationHelper.from(this)
+                        .createDefault(new DefaultConfig(), "title", "main content", "subtext")
+                        .setBigTextStyle("bigtitle", "bigContentbigContentbigContentbigContentbigContentbigContentbigContentbigCont" +
+                                "entbigContentbigContentbigContentbigContentbigContentbigContentbigContentbigContentbigConten" +
+                                "tbigContentbigContentbigContentbigContentbigContentbigContentbigContentbigContentbigContent" +
+                                "bigContentbigContentbigContentbigContentbigContent", "summary")
+                        .setEffectAllDefaults()
+                        .sendNotify(4000);
+                break;
         }
     }
 
