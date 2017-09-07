@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        remoteViews.setOnClickPendingIntent(R.id.tv_test1, pendingIntent);
+//        remoteViews.setOnClickPendingIntent(R.id.tv_test1, pendingIntent);
         setEvent();
 
 
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_send).setOnClickListener(this);
         findViewById(R.id.btn_cancel).setOnClickListener(this);
         findViewById(R.id.btn_progress).setOnClickListener(this);
+        findViewById(R.id.btn_custom).setOnClickListener(this);
     }
 
     /**
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent2 = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent2, 0);
                 NotificationCompat.Builder builderHeadsUp = NotificationHelper.from(this)
-                        .createCustomHeadsUpView(new DefaultConfig(), new RemoteViews(getPackageName(), R.layout.view_notification2))
+                        .createCustomHeadsUpView(new DefaultConfig(), new RemoteViews(getPackageName(), R.layout.view_notification_big))
                         .setEffectAllDefaults()
                         .getBuilder();
                 //5.0之后支持顶部悬浮窗显示，开启条件（二选一）：
@@ -247,7 +248,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         NotificationHelper.completeProgress(MainActivity.this, 0, progressBuilder, "complete");
                     }
                 }).start();
+
                 break;
+
+            case R.id.btn_custom:
+                NotificationHelper.from(this)
+                        .createCustomNotification(new DefaultConfig(), new RemoteViews(getPackageName(),
+                                R.layout.view_notification),new RemoteViews(getPackageName(),R.layout.view_notification_big))
+                        .setEffectAllDefaults()
+                        .sendNotify(3000);
         }
     }
 

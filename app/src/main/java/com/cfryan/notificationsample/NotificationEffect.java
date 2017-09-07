@@ -1,7 +1,7 @@
 package com.cfryan.notificationsample;
 
 import android.app.Notification;
-import android.media.AudioManager;
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -17,17 +17,21 @@ import android.widget.RemoteViews;
  */
 
 public class NotificationEffect {
-
+    private Context mContext;
     private NotificationCompat.Builder mBuilder;
-    private RemoteViews mRemoteViews;
+    private RemoteViews mContentRemoteViews;
+    private RemoteViews mBigContentRemotesViews;
 
-    public NotificationEffect(@NonNull NotificationCompat.Builder builder) {
+    public NotificationEffect(Context context, @NonNull NotificationCompat.Builder builder) {
+        this.mContext = context;
         this.mBuilder = builder;
     }
 
-    public NotificationEffect(@NonNull NotificationCompat.Builder builder, @NonNull RemoteViews remoteViews) {
+    public NotificationEffect(Context context, @NonNull NotificationCompat.Builder builder, @NonNull RemoteViews remoteViews, @Nullable RemoteViews bigContentRemotesViews) {
+        this.mContext = context;
         this.mBuilder = builder;
-        this.mRemoteViews = remoteViews;
+        this.mContentRemoteViews = remoteViews;
+        this.mBigContentRemotesViews = bigContentRemotesViews;
     }
 
     public NotificationCompat.Builder getBuilder() {
@@ -45,7 +49,7 @@ public class NotificationEffect {
      */
     public NotificationEvent setEffectAllDefaults() {
         mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-        return new NotificationEvent(mBuilder, mRemoteViews);
+        return new NotificationEvent(mContext, mBuilder, mContentRemoteViews, mBigContentRemotesViews);
     }
 
     /**
@@ -62,7 +66,7 @@ public class NotificationEffect {
         mBuilder.setSound(soundUri);
 //        mBuilder.setSound(soundUri,AudioManager.STREAM_NOTIFICATION);
         mBuilder.setVibrate(pattern);
-        return new NotificationEvent(mBuilder, mRemoteViews);
+        return new NotificationEvent(mContext, mBuilder, mContentRemoteViews, mBigContentRemotesViews);
 
     }
 

@@ -93,7 +93,7 @@ public class NotificationHelper {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             baseBuilder.setContentInfo(contentInfo);
         }
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     /**
@@ -109,7 +109,7 @@ public class NotificationHelper {
         baseBuilder.setContentTitle(title)
                 .setContentText(contentText)
                 .setProgress(0, 0, true);
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     /**
@@ -127,7 +127,7 @@ public class NotificationHelper {
         baseBuilder.setContentTitle(title)
                 .setContentText(contentText)
                 .setProgress(config.getProgressMax(), progress, false);
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     /**
@@ -149,13 +149,26 @@ public class NotificationHelper {
      * 通知自定义view构造器
      *
      * @param config
-     * @param remoteViews
+     * @param contentRemoteViews
      * @return
      */
-    public NotificationEffect createCustomNotification(BaseConfig config, RemoteViews remoteViews) {
+    public NotificationEffect createCustomNotification(BaseConfig config, RemoteViews contentRemoteViews) {
+        return createCustomNotification(config, contentRemoteViews, null);
+    }
+
+    /**
+     * 通知自定义view构造器(包含扩展)
+     *
+     * @param config
+     * @param contentRemoteViews
+     * @param bigContentRemoteViews
+     * @return
+     */
+    public NotificationEffect createCustomNotification(BaseConfig config, RemoteViews contentRemoteViews, RemoteViews bigContentRemoteViews) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
-        baseBuilder.setCustomContentView(remoteViews);
-        return new NotificationEffect(baseBuilder, remoteViews);
+        baseBuilder.setCustomContentView(contentRemoteViews)
+                .setCustomBigContentView(bigContentRemoteViews);
+        return new NotificationEffect(mContext.get(), baseBuilder, contentRemoteViews, bigContentRemoteViews);
     }
 
     /**
@@ -180,32 +193,32 @@ public class NotificationHelper {
     public NotificationEffect createCustomHeadsUpView(BaseConfig config, RemoteViews remoteViews) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setCustomHeadsUpContentView(remoteViews);
-        return new NotificationEffect(baseBuilder, remoteViews);
+        return new NotificationEffect(mContext.get(), baseBuilder, remoteViews, null);
     }
 
 
     public NotificationEffect createMessageStyleNotification(BaseConfig config) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setStyle(new NotificationCompat.MessagingStyle(""));
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     public NotificationEffect createBigPictureStyleNotification(BaseConfig config) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setStyle(new NotificationCompat.BigPictureStyle());
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     public NotificationEffect createInboxStyleNotification(BaseConfig config) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setStyle(new NotificationCompat.InboxStyle());
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     public NotificationEffect createBigTextStyleNotification(BaseConfig config) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setStyle(new NotificationCompat.BigTextStyle());
-        return new NotificationEffect(baseBuilder);
+        return new NotificationEffect(mContext.get(), baseBuilder);
     }
 
     /**
