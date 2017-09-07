@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -262,18 +263,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_style:
 
-
-                NotificationHelper.from(this)
-                        .createDefault(new DefaultConfig(), "title", "main content", "subtext")
-                        .setMessageStyle("username", "title",
-                                new NotificationCompat.MessagingStyle.Message[]
-                                        {
-                                                new NotificationCompat.MessagingStyle.Message("A", System.currentTimeMillis(), "sender1"),
-                                                new NotificationCompat.MessagingStyle.Message("B", System.currentTimeMillis(), "sender2"),
-                                                new NotificationCompat.MessagingStyle.Message("C", System.currentTimeMillis(), "sender3")
-                                        })
-                        .setEffectAllDefaults()
-                        .sendNotify(5000);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    NotificationHelper.from(this)
+                            .createDefault(new DefaultConfig(), "title", "main content", "subtext")
+                            .setMessageStyle("username", "title",
+                                    new NotificationCompat.MessagingStyle.Message[]
+                                            {
+                                                    new NotificationCompat.MessagingStyle.Message("A", System.currentTimeMillis(), "sender1"),
+                                                    new NotificationCompat.MessagingStyle.Message("B", System.currentTimeMillis(), "sender2"),
+                                                    new NotificationCompat.MessagingStyle.Message("C", System.currentTimeMillis(), "sender3")
+                                            })
+                            .setEffectAllDefaults()
+                            .sendNotify(5000);
+                }
 
                 NotificationHelper.from(this)
                         .createDefault(new DefaultConfig(), "title", "main content", "subtext")

@@ -1,7 +1,10 @@
 package com.cfryan.notificationsample;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -24,6 +27,15 @@ public class NotificationStyle {
         return new NotificationEffect(mContext, mBuilder);
     }
 
+    /**
+     * API >= 24(N) will work
+     *
+     * @param userDisplayName
+     * @param title
+     * @param messages
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public NotificationEffect setMessageStyle(CharSequence userDisplayName, CharSequence title, NotificationCompat.MessagingStyle.Message[] messages) {
         NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(userDisplayName)
                 .setConversationTitle(title);
@@ -35,10 +47,11 @@ public class NotificationStyle {
     }
 
     /**
-     * api>=16  after 4.1
+     * API >= 16(JB) will work
      *
      * @return
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public NotificationEffect setBigPictureStyle(CharSequence title, CharSequence summary, Bitmap largeIcon, Bitmap bigPic) {
         mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
                 .setBigContentTitle(title)
@@ -48,6 +61,15 @@ public class NotificationStyle {
         return new NotificationEffect(mContext, mBuilder);
     }
 
+    /**
+     * API >= 16(JB) will work
+     *
+     * @param title
+     * @param summary
+     * @param contentLines
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public NotificationEffect setInboxStyle(CharSequence title, CharSequence summary, CharSequence[] contentLines) {
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
                 .setBigContentTitle(title)
@@ -59,6 +81,15 @@ public class NotificationStyle {
         return new NotificationEffect(mContext, mBuilder);
     }
 
+    /**
+     * API >= 16(JB) will work
+     *
+     * @param title
+     * @param content
+     * @param summary
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public NotificationEffect setBigTextStyle(CharSequence title, CharSequence content, CharSequence summary) {
         mBuilder.setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(content)
