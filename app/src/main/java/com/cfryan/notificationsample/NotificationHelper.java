@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -29,12 +30,25 @@ public class NotificationHelper {
     }
 
     /**
+     * 默认获取不到情况下是非深色背景，基本7.0以上都获取不到
+     * @return
+     */
+    private boolean isDarkNotificationBackground() {
+        int notificationColor = NotificationUtils.getNotificationColor(mContext.get());
+        if (notificationColor == NotificationUtils.INVALID_COLOR) {
+            return false;
+        } else {
+            return !NotificationUtils.isColorSimilar(Color.BLACK, notificationColor);
+        }
+    }
+
+    /**
      * Start Helper from a Activity
      *
      * @param activity
      * @return
      */
-    public static NotificationHelper from(Activity activity) {
+    public static NotificationHelper from(@NonNull Activity activity) {
         return new NotificationHelper(activity);
     }
 
@@ -44,7 +58,7 @@ public class NotificationHelper {
      * @param fragment
      * @return
      */
-    public static NotificationHelper from(Fragment fragment) {
+    public static NotificationHelper from(@NonNull Fragment fragment) {
         return new NotificationHelper(fragment.getActivity());
     }
 
@@ -54,7 +68,7 @@ public class NotificationHelper {
      * @param service
      * @return
      */
-    public static NotificationHelper from(Service service) {
+    public static NotificationHelper from(@NonNull Service service) {
         return new NotificationHelper(service);
     }
 
@@ -68,7 +82,7 @@ public class NotificationHelper {
      * @return
      */
     public NotificationStyle createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
-                                            CharSequence subText) {
+                                           CharSequence subText) {
         return createDefault(config, title, contentText, subText, null, null);
     }
 
@@ -84,7 +98,7 @@ public class NotificationHelper {
      * @return
      */
     public NotificationStyle createDefault(BaseConfig config, CharSequence title, CharSequence contentText,
-                                            CharSequence subText, CharSequence ticker, CharSequence contentInfo) {
+                                           CharSequence subText, CharSequence ticker, CharSequence contentInfo) {
         NotificationCompat.Builder baseBuilder = config.getBaseBuilder(mContext.get());
         baseBuilder.setContentTitle(title)
                 .setContentText(contentText)
@@ -149,15 +163,16 @@ public class NotificationHelper {
      * 通知自定义view构造器
      *
      * @param config
-     * @param contentRemoteViews
+     * @param content
      * @return
      */
-    public NotificationEffect createCustomNotification(BaseConfig config, RemoteViews contentRemoteViews) {
-        return createCustomNotification(config, contentRemoteViews, null);
+    public NotificationEffect createCustomNotification(BaseConfig config, INotificationColorCompat content) {
+        return createCustomNotification(config, content.getCompatContentView(isDarkNotificationBackground()),
+                content.getCompatBigContentView(isDarkNotificationBackground()));
     }
 
     /**
-     * 通知自定义view构造器(包含扩展的bigcontentview)
+     * 通知自定义view构造器(包含扩展的bigContentView)
      *
      * @param config
      * @param contentRemoteViews

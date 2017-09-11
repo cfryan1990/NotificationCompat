@@ -8,10 +8,11 @@
         android:id="@+id/head"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_alignParentLeft="true"
+        android:gravity="center"
         android:text="自定义布局"
-        android:textSize="18sp"/>
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/content"
@@ -23,20 +24,20 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher_round" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher_round" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher_round" />
     </LinearLayout>
 
 </RelativeLayout>

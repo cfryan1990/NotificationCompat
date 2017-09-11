@@ -1,5 +1,6 @@
 package com.cfryan.notificationsample;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,7 +18,9 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.cfryan.notificationsample.views.ContentViewCompat;
+
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private NotificationManager notificationManager;
 
@@ -254,9 +257,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_custom:
+
+                ContentViewCompat viewCompat = new ContentViewCompat(this);
                 NotificationHelper.from(this)
-                        .createCustomNotification(new DefaultConfig(), new RemoteViews(getPackageName(),
-                                R.layout.view_notification), new RemoteViews(getPackageName(), R.layout.view_notification_big))
+                        .createCustomNotification(new DefaultConfig(), viewCompat)
                         .setEffectAllDefaults()
                         .sendNotify(3000);
                 break;

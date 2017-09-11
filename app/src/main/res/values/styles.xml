@@ -11,4 +11,9 @@
     <style name="NotificationContent" parent="android:TextAppearance.StatusBar.EventContent">
     </style>
 
+    <style name="NotificationContent.Compat" parent="@style/TextAppearance.AppCompat.Notification">
+
+    </style>
+
+
 </resources>

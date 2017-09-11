@@ -53,7 +53,7 @@ public abstract class BaseConfig {
     }
 
     /**
-     * VISIBILITY_PUBLIC 显示通知的完整内容。
+     * VISIBILITY_PUBLIC 任何时候显示通知的完整内容。
      * VISIBILITY_SECRET 不会在锁定屏幕上显示此通知的任何部分。
      * VISIBILITY_PRIVATE 显示通知图标和内容标题等基本信息，但是隐藏通知的完整内容。
      *
